@@ -48,16 +48,14 @@ void StartGame(int upperLimit)
     {
         Console.WriteLine($"Devine le nombre entre 0 et {upperLimit}");
         int guessedNumber;
-        bool isANumber = int.TryParse(Console.ReadLine(), out guessedNumber);
-
-        if (!isANumber) continue;
+        bool isInCorrectRange = (int.TryParse(Console.ReadLine(), out guessedNumber) && guessedNumber >= 0 && guessedNumber <= upperLimit);
         
-        if (guessedNumber != numberToFind)
+        if (isInCorrectRange && guessedNumber != numberToFind)
         {
             WriteInColor("C'est pas le bon :(", ConsoleColor.Red);
             GuidePlayer(guessedNumber, numberToFind);
         }
-        else
+        else if(isInCorrectRange && guessedNumber == numberToFind)
         {
             WriteInColor("Woohoo!!! Tu as gagné Rien!", ConsoleColor.Green);
             isGameWon = true;
