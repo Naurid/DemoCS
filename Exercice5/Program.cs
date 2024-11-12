@@ -98,9 +98,9 @@ internal class Program
                 string? playerMove = "";
                 do
                 {
-                    Console.WriteLine("Where do you want to move the pawn? (L)eft or (R)ight?");
+                    Console.WriteLine("Where do you want to move the pawn? (L)eft or (R)ight? or(Q)uit?");
                     playerMove = Console.ReadLine().ToUpper();
-                } while (playerMove != "L" && playerMove != "R");
+                } while (playerMove != "L" && playerMove != "R" && playerMove != "Q");
                 
                 int currentIndex = Array.IndexOf(pawnSquares, pawnChar);
                 pawnSquares[currentIndex] = "";
@@ -113,18 +113,13 @@ internal class Program
                     case "R":
                         pawnSquares[currentIndex == pawnSquares.Length-1 ? 0 : currentIndex + 1] = pawnChar;
                         break;
+                    case "Q":
+                        keepPlaying=false;
+                        break;
                 }
                 Console.WriteLine();
                 foreach (var pawnSquare in pawnSquares) Console.Write($"[{pawnSquare}]");
-                
-                string? playerChoice = "";
-                do
-                {
-                    Console.WriteLine("Continue? (Y)es or (N)o?");
-                    playerChoice = Console.ReadLine().ToUpper();
-                } while (playerChoice != "Y" && playerChoice != "N");
-               
-                keepPlaying = playerChoice == "Y";
+        
             } while (keepPlaying);
         }
         #endregion
@@ -290,7 +285,7 @@ internal class Program
 
         #endregion
         
-        Tournament();
+        //Tournament();
     }
     
     
