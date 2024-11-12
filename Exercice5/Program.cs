@@ -89,12 +89,11 @@ internal class Program
         {
             bool keepPlaying = true;
             string pawnChar = "\u265f\ufe0f";
-            string[] pawnSquares = new string[10]{"\u265f\ufe0f", "", "", "", "", "", "", "", "", ""};
+            string[] pawnSquares = new string[10];
+            pawnSquares[0] = pawnChar;
             
             do
             {
-                
-                foreach (var pawnSquare in pawnSquares) Console.Write(pawnSquare);
                 string? playerMove = "";
                 do
                 {
@@ -117,7 +116,7 @@ internal class Program
                         keepPlaying=false;
                         break;
                 }
-                Console.WriteLine();
+                Console.Clear();
                 foreach (var pawnSquare in pawnSquares) Console.Write($"[{pawnSquare}]");
         
             } while (keepPlaying);
