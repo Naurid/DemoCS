@@ -131,7 +131,7 @@ internal class Program
             Dictionary<string, string> RPS = new Dictionary<string, string>();
             RPS.Add("Rock", "Scissors");
             RPS.Add("Scissors", "Paper");
-            RPS.Add("Paper", "Scissors");
+            RPS.Add("Paper", "Rock");
             
             string[] choices = RPS.Keys.ToArray();
             
@@ -194,6 +194,7 @@ internal class Program
         #region Exo6
 
         int[] encryptedMessage;
+        
         void EncryptMessage(string message, int encryptionKey)
         {
             message = message.Trim();
@@ -258,7 +259,7 @@ internal class Program
                         Console.WriteLine($"Who wins? (1) {winners[i]} or (2) {winners[winners.Count - 1 - i]}");
                     } while (!int.TryParse(Console.ReadLine(), out winner) || (winner != 1 && winner != 2));
 
-                    Console.WriteLine(winner);
+                    Console.WriteLine(winners[winner]);
 
                     switch (winner)
                     {
@@ -284,7 +285,7 @@ internal class Program
 
         #endregion
         
-        //Tournament();
+        Tournament();
     }
     
     
