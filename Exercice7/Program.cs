@@ -9,4 +9,10 @@ class Program
             $"The solutions to the equation [{solver.A}x²{(solver.B < 0 ? $"{solver.B}" : $"+ {solver.B}")}x+{solver.C} = 0] are : x1 => {x1}, x2 => {x2}" 
             : "delta was negative and I was to lazy to implement the last possibility :) (it's I M A G I N A R Y)");
     }
+
+    enum Eenum
+    {
+        neum1,
+        neum2
+    }
 }
