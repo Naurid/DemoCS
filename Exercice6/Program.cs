@@ -4,121 +4,114 @@ class Program
 {
     static void Main(string[] args)
     {
-        int height = 6;
-        int width = 7;
-        Case[,] puissance4 = new Case[height, width];
-        
-        bool isPlayerTurn = false;
-        bool doWin = false;
+        Case[,] puissance4;
+        Puissance4(6, 7);
 
-        do
+        void Puissance4(int width, int height)
         {
-            Console.Clear();
-            isPlayerTurn = !isPlayerTurn;
-            Console.WriteLine($"Player {(isPlayerTurn ? "1" : "2")}'s turn:");
-            
-            for (int i = 0; i < width; i++)
-            {
-                Console.Write($"[{i}]");
-            }
+            puissance4 = new Case[height, width];
 
-            Console.WriteLine();
+            bool isPlayerTurn = false;
+            bool doWin = false;
 
-            for (int i = 0; i < height; i++)
-            {
-                for (int j = 0; j < width; j++)
-                {
-                    puissance4[i, j].Content =  string.IsNullOrEmpty(puissance4[i, j].Content) ? " " : puissance4[i, j].Content;
-                    Console.Write($"[{puissance4[i, j].Content}]");
-                }
-
-                Console.WriteLine();
-            }
-
-            int columnNumber;
             do
             {
-                Console.Write("Enter the column number: ");
-            } while (!int.TryParse(Console.ReadLine(), out columnNumber) || columnNumber < 0 ||
-                     columnNumber > width - 1);
-
-            for (int i = height - 1; i > 0; i--)
-            {
-                Case currentCase = puissance4[i, columnNumber];
-                if (currentCase.Content == " ")
+                isPlayerTurn = !isPlayerTurn;
+                
+                for (int i = 0; i < width; i++)
                 {
-                    puissance4[i, columnNumber].Content = isPlayerTurn ? "X" : "O";
-                    break;
+                    Console.Write($"[{i}]");
                 }
-            }
+                
+                DrawBoard(height, width, false, isPlayerTurn);
+                
+                int columnNumber;
+                do
+                {
+                    Console.Write("Enter the column number: ");
+                } while (!int.TryParse(Console.ReadLine(), out columnNumber) || columnNumber < 0 ||
+                         columnNumber > width - 1);
 
+                for (int i = height - 1; i > 0; i--)
+                {
+                    Case currentCase = puissance4[i, columnNumber];
+                    if (currentCase.Content == " ")
+                    {
+                        puissance4[i, columnNumber].Content = isPlayerTurn ? "X" : "O";
+                        break;
+                    }
+                }
+
+                doWin = CheckWinCon(height, width);
+            } while (!doWin);
+            
+            DrawBoard(height, width, true, isPlayerTurn);
+        }
+
+        bool CheckWinCon(int height, int width)
+        {
             for (int i = height - 1; i > 0; i--)
             {
                 for (int j = 0; j < width; j++)
                 {
                     if (puissance4[i, j].Content != " ")
                     {
-                        if (j > 3 && i > 3 && CheckLeftDiagonal(puissance4, i, j))
-                        {
-                            doWin = true;
-                        }
-                        else if ( j < width - 3 && i > 3  && CheckRightDiagonal(puissance4, i, j))
-                        {
-                            doWin = true;
-                        }
-                        else if (i > 3 && CheckColumn(puissance4, i, j))
-                        {
-                            doWin = true;
-                        }
-                        else if (j < width - 3 && CheckRow(puissance4, i, j))
-                        {
-                            doWin = true;
-                        }
+                        if (j > 3 && i > 3 && CheckLeftDiagonal(i, j)) return true;
+                        if (j < width - 3 && i > 3 && CheckRightDiagonal(i, j))return true;
+                        if (i > 3 && CheckColumn(i, j))return true;
+                        if (j < width - 3 && CheckRow(i, j))return true;
                     }
-                    
                 }
             }
-        } while (!doWin);
-        
-        Console.Clear();
-        Console.WriteLine();
-        Console.WriteLine($"Joueur {(isPlayerTurn ? "1" : "2")} a gagné");
-        for (int i = 0; i < height; i++)
-        {
-            for (int j = 0; j < width; j++)
-            {
-                Console.Write($"[{puissance4[i, j].Content}]");
-            }
+            return false;
+        }
 
-            Console.WriteLine();
+        bool CheckLeftDiagonal(int column, int row)
+        {
+            string currentPawn = puissance4[column, row].Content;
+            for (int i = 1; i < 4; i++) if (puissance4[column - i, row - i].Content != currentPawn) return false;
+            return true;
+        }
+
+        bool CheckRightDiagonal(int column, int row)
+        {
+            string currentPawn = puissance4[column, row].Content;
+            for (int i = 1; i < 4; i++) if (puissance4[column - i, row + i].Content != currentPawn) return false;
+            return true;
+        }
+
+        bool CheckColumn(int column, int row)
+        {
+            string currentPawn = puissance4[column, row].Content;
+            for (int i = 1; i < 4; i++) if (puissance4[column - i, row].Content != currentPawn) return false;
+            return true;
+        }
+
+        bool CheckRow( int column, int row)
+        {
+            string currentPawn = puissance4[column, row].Content;
+            for (int i = 1; i < 4; i++) if (puissance4[column, row + i].Content != currentPawn) return false;
+            return true;
+        }
+        
+        void DrawBoard(int height, int width, bool winMessage, bool isPlayerTurn)
+        {
+            Console.Clear();
+            Console.WriteLine(winMessage ? $"Joueur {(isPlayerTurn ? "1" : "2")} a gagné": $"Player {(isPlayerTurn ? "1" : "2")}'s turn:");
+            for (int i = 0; i < height; i++)
+            {
+                for (int j = 0; j < width; j++)
+                {
+                    puissance4[i, j].Content = string.IsNullOrEmpty(puissance4[i, j].Content)
+                        ? " "
+                        : puissance4[i, j].Content;
+                    Console.Write($"[{puissance4[i, j].Content}]");
+                }
+
+                Console.WriteLine();
+            }
         }
     }
 
-    private static bool CheckLeftDiagonal(Case[,] puissance4, int column, int row)
-    {
-        string currentPawn = puissance4[column, row].Content;
-        for (int i = 1; i < 4; i++) if (puissance4[column - i, row - i].Content != currentPawn) return false;
-        return true;
-    }
-
-    private static bool CheckRightDiagonal(Case[,] puissance4, int column, int row)
-    {
-        string currentPawn = puissance4[column, row].Content;
-        for (int i = 1; i < 4; i++) if (puissance4[column - i, row + i].Content != currentPawn) return false;
-        return true;
-    }
-
-    private static bool CheckColumn(Case[,] puissance4, int column, int row)
-    {
-        string currentPawn = puissance4[column, row].Content;
-        for (int i = 1; i < 4; i++) if (puissance4[column - i, row].Content != currentPawn) return false;
-        return true;
-    }
-    
-    private static bool CheckRow(Case[,] puissance4, int column, int row)
-    {
-        string currentPawn = puissance4[column, row].Content;
-        for (int i = 1; i < 4; i++) if (puissance4[column, row + i].Content != currentPawn) return false;
-        return true;
-    }
+   
 }
