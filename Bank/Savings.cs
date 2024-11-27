@@ -9,9 +9,14 @@ public class Savings : Account
         LastTimeWithDrawn = DateTime.Now;
     }
 
+    protected override double CalculateInterest()
+    {
+        return Balance * 0.045;
+    }
+
     protected override void WithDraw(double amount)
     {
-        if (Balance - amount < 0) return;
+        if (amount < 0 || Balance - amount < 0) return;
         base.WithDraw(amount);
         LastTimeWithDrawn = DateTime.Now;
     }

@@ -25,6 +25,8 @@ namespace Bank
            Console.WriteLine(bank[accountNumber2].GetType());
 
            Console.WriteLine(bank.GetAccounts(newPerson));
+
+           Console.WriteLine(bank[accountNumber2].ApplyInterest());
         }
     }
 }

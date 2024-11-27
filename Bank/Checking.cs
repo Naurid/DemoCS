@@ -19,9 +19,14 @@
             }
         }
 
+        protected override double CalculateInterest()
+        {
+            return Balance * (Balance > 0 ? 0.03 : 0.095);
+        }
+
         protected override void WithDraw(double amount)
         {
-            if ((Balance + CreditLine) - amount < 0) return;
+            if (amount < 0 || Balance - amount < - CreditLine) return;
             base.WithDraw(amount);
 
         }
