@@ -4,9 +4,9 @@ public class Bank(string name)
 {
     public string Name { get; private set; } = name;
     
-    public List<Checking> Accounts { get; } = new (); 
+    public List<Account> Accounts { get; } = new (); 
     
-    public Checking this[string number]
+    public Account this[string number]
     {
         get
         {
@@ -17,15 +17,17 @@ public class Bank(string name)
             return null;
         }
     }
-    public string RegisterAccount(Person owner, double starterBalance = 0, double creditLine = 0)
+    public string RegisterAccount(Person owner, bool isCheckingsAccount = true, double starterBalance = 0, double creditLine = 0)
     {
 
         string newID = GetRandomAccountNumber();
         Console.WriteLine(newID);
-        Checking checking = new Checking(newID.ToString(), creditLine, owner, starterBalance);
-        Accounts.Add(checking);
+        Account newAccount = isCheckingsAccount
+            ? new Checking(newID.ToString(), creditLine, owner, starterBalance)
+            : new Savings(newID.ToString(), owner, starterBalance);
+        Accounts.Add(newAccount);
         
-        return checking.Number;
+        return newAccount.Number;
         
     }
 
@@ -45,7 +47,7 @@ public class Bank(string name)
 
     public void DisplayBalance(string accountNumber)
     {
-        Checking checkingToDisplay = this[accountNumber];
+        Account checkingToDisplay = this[accountNumber];
         if (checkingToDisplay == null) return;
         Utils.WriteInColor($"{checkingToDisplay.Number}: {checkingToDisplay.Balance}", ConsoleColor.Yellow);
     }
@@ -54,7 +56,7 @@ public class Bank(string name)
     {
         double sumOfAll = 0;
 
-        foreach (Checking account in Accounts)
+        foreach (Account account in Accounts)
         {
             if (account.Owner == owner) sumOfAll += account;;
         }

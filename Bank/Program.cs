@@ -12,15 +12,17 @@ namespace Bank
             
             Person newPerson = new Person("Gabor", "Vilics", new DateTime(1997, 05, 17));
             Utils.WriteInColor($"{newPerson.FirstName} {newPerson.LastName} " +
-                               $"was born on the {newPerson.DateOfBirth.Day}'s of {newPerson.DateOfBirth:MMMM} in {newPerson.DateOfBirth.Year}.",
+                               $"was born on the {newPerson.DateOfBirth.Day}th of {newPerson.DateOfBirth:MMMM} in {newPerson.DateOfBirth.Year}.",
                 ConsoleColor.Green);
 
            string accountNumber1 = bank.RegisterAccount(newPerson);
            bank.DisplayBalance(accountNumber1);
+           Console.WriteLine(bank[accountNumber1].GetType());
            
            
-           string accountNumber2 = bank.RegisterAccount(newPerson, 178);
+           string accountNumber2 = bank.RegisterAccount(newPerson, false, 178);
            bank.DisplayBalance(accountNumber2);
+           Console.WriteLine(bank[accountNumber2].GetType());
 
            Console.WriteLine(bank.GetAccounts(newPerson));
         }
