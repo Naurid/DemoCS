@@ -1,6 +1,6 @@
 ﻿namespace Bank
 {
-    public class Account
+    public class Checking
     {
         public string Number { get; private set; }
         public double Balance { get; private set; }
@@ -18,7 +18,7 @@
             }
         }
         
-        public Account(string number, double creditLine, Person owner, double balance = 0)
+        public Checking(string number, double creditLine, Person owner, double balance = 0)
         {
             this.Number = number;
             this.CreditLine = creditLine;
@@ -28,7 +28,7 @@
 
         public void WithDraw(double amount)
         {
-            if (this.Balance - amount < 0) return;
+            if ((this.Balance + CreditLine) - amount < 0) return;
 
             this.Balance -= amount;
         }
@@ -36,6 +36,16 @@
         public void Deposit(double amount)
         {
             this.Balance += amount;
+        }
+
+        public static double operator +(Checking left, Checking right)
+        {
+              return Math.Max(left.Balance, 0) + Math.Max(right.Balance, 0);
+        }
+
+        public static double operator +(double left, Checking right)
+        {
+             return Math.Max(left, 0) + Math.Max(right.Balance, 0);
         }
     }
     
