@@ -3,18 +3,13 @@
 public class Savings : Account
 {
     public DateTime LastTimeWithDrawn {get; private set;}
-    
-    public Savings(string number, Person owner, double balance = 0) : base(number, owner, balance)
-    {
-        LastTimeWithDrawn = DateTime.Now;
-    }
 
     protected override double CalculateInterest()
     {
         return Balance * 0.045;
     }
 
-    protected override void WithDraw(double amount)
+    public override void WithDraw(double amount)
     {
         if (amount < 0 || Balance - amount < 0) return;
         base.WithDraw(amount);

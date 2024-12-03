@@ -23,10 +23,10 @@ public class Bank(string name)
         string newID = GetRandomAccountNumber();
         Console.WriteLine(newID);
         Account newAccount = isCheckingsAccount
-            ? new Checking(newID.ToString(), creditLine, owner, starterBalance)
-            : new Savings(newID.ToString(), owner, starterBalance);
+            ? new Checking(){Number = newID.ToString(), Owner = owner}
+            : new Savings(){Number = newID.ToString(), Owner = owner};
         Accounts.Add(newAccount);
-        
+        newAccount.Deposit(starterBalance);
         return newAccount.Number;
         
     }

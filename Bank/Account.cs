@@ -1,28 +1,22 @@
 ﻿namespace Bank;
 
-public abstract class Account
+public abstract class Account : ICustomer, IBanker
 {
-    public string Number { get; protected set; }
+    public string Number { get; set; }
+    public Person Owner { get; set; }
     public double Balance { get; private set; }
-    public Person Owner { get; protected set; }
-
-    public Account(string number, Person owner, double balance = 0)
-    {
-        Number = number;
-        Owner = owner;
-        Balance = balance;
-    }
     
     protected abstract double CalculateInterest();
 
-    public double ApplyInterest() => Balance + CalculateInterest();
 
-    protected virtual void WithDraw(double amount)
+    public double ApplyInterest() => Balance += CalculateInterest();
+
+    public virtual void WithDraw(double amount)
     {
         Balance -= amount;
     }
 
-    protected virtual void Deposit(double amount)
+    public virtual void Deposit(double amount)
     {
         if (amount < 0) return;
         Balance += amount;

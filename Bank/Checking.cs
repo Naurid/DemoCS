@@ -4,11 +4,6 @@
     {
         private readonly double _creditLine;
 
-        public Checking(string number, double creditLine, Person owner, double balance = 0) : base(number, owner, balance)
-        {
-            CreditLine = creditLine;
-        }
-
         public double CreditLine
         {
             get => _creditLine;
@@ -21,10 +16,10 @@
 
         protected override double CalculateInterest()
         {
-            return Balance * (Balance > 0 ? 0.03 : 0.095);
+            return Balance * (Balance > 0 ? 0.03 : 0.0975);
         }
 
-        protected override void WithDraw(double amount)
+        public override void WithDraw(double amount)
         {
             if (amount < 0 || Balance - amount < - CreditLine) return;
             base.WithDraw(amount);
